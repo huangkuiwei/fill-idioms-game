@@ -31,7 +31,7 @@
       <image mode="widthFix" src="/static/images/hongbao-icon.png" @click="$refs.hongbaoRef.open()" />
     </view>
 
-    <view class="block1"></view>
+    <view class="block1" @click="jumpUrl('/pages/index/index')"></view>
     <view class="block2"></view>
     <view class="block3" @click="jumpUrl('/pages/data/data')"></view>
     <view class="block4"></view>
@@ -87,7 +87,7 @@ export default {
       success: false,
       money: 0,
       totalMoney: 0,
-	  focus: false
+	    focus: false
     };
   },
 
@@ -95,8 +95,9 @@ export default {
     ...mapState('app', ['wordsList']),
   },
 
-  onLoad() {
+  onShow() {
     if (this.wordsList.length) {
+      this.noQuestionBank = false;
       this.getCurrentWord();
     } else {
       this.noQuestionBank = true;
@@ -231,7 +232,7 @@ page {
     .hongbao-icon {
       position: absolute;
       right: 10rpx;
-      top: 140rpx;
+      top: 20%;
 
       image {
         width: 64rpx;
@@ -240,8 +241,8 @@ page {
 
     .block1 {
       position: absolute;
-      width: 40rpx;
-      height: 40rpx;
+      width: 100rpx;
+      height: 100rpx;
       background: red;
       left: 0;
       top: 0;
@@ -249,8 +250,8 @@ page {
 
     .block2 {
       position: absolute;
-      width: 40rpx;
-      height: 40rpx;
+      width: 100rpx;
+      height: 100rpx;
       background: red;
       right: 0;
       top: 0;
@@ -258,8 +259,8 @@ page {
 
     .block3 {
       position: absolute;
-      width: 40rpx;
-      height: 40rpx;
+      width: 100rpx;
+      height: 100rpx;
       background: red;
       left: 0;
       bottom: 0;
@@ -267,8 +268,8 @@ page {
 
     .block4 {
       position: absolute;
-      width: 40rpx;
-      height: 40rpx;
+      width: 100rpx;
+      height: 100rpx;
       background: red;
       right: 0;
       bottom: 0;

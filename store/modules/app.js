@@ -2,24 +2,14 @@ const appStore = {
   namespaced: true,
 
   state: {
-    // TODO
-    wordsList: [
-      {
-        word: '千军万马',
-        hasRecode: false,
-      },
-      {
-        word: '万事如意',
-        hasRecode: false,
-      },
-      {
-        word: '醉生梦死',
-        hasRecode: false,
-      },
-    ],
+    wordsList: [],
   },
 
-  mutations: {},
+  mutations: {
+    _setWordsList(state, payload) {
+      state.wordsList = payload
+    }
+  },
 
   actions: {},
 };
