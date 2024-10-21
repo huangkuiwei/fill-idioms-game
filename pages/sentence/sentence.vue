@@ -29,6 +29,7 @@
         </view>
 
         <view class="btn">
+          <button type="primary" class="next" @click="next">下一关</button>
           <button type="primary" @click="submit">提交</button>
         </view>
       </template>
@@ -38,16 +39,14 @@
       <image mode="widthFix" src="/static/images/hongbao-icon.png" @click="$refs.hongbaoRef.open()" />
     </view>
 
-    <view class="block1" @click="jumpUrl('/pages/idioms1/idioms1')" @longtap="jumpUrl('/pages/data/data')"></view>
-    <view class="block2" @click="jumpUrl('/pages/idioms2/idioms2')" @longtap="jumpUrl('/pages/data/data')"></view>
-    <view class="block3" @longtap="jumpUrl('/pages/sentenceData/sentenceData')"></view>
+    <view class="block1" @longtap="jumpUrl('/pages/sentenceData/sentenceData')"></view>
 
     <uni-popup ref="successDialogRef" background-color="#ffffff" border-radius="5px 5px 5px 5px">
       <view class="success-dialog">
         <view class="title">恭喜回答正确!</view>
         <image class="success-icon" mode="widthFix" src="/static/images/success-icon.png"/>
         <view class="money">
-          增加可提现 <text>{{ money }}</text> 元
+          增加可提现 <text>{{ money }}</text>
         </view>
         <view class="btn" @click="$refs.successDialogRef.close(); focus = true">
           下一题
@@ -68,7 +67,7 @@
     <uni-popup ref="hongbaoRef" background-color="#ffffff" border-radius="5px 5px 5px 5px">
       <view class="hongbao-dialog">
         <view class="title">
-          当前红包余额：<text>{{ totalMoney.toFixed(2) }}元</text>
+          当前红包余额：<text>{{ totalMoney.toFixed(2) }}</text>
         </view>
 
         <image class="hongbao-icon2" mode="widthFix" src="/static/images/hongbao-icon2.png"/>
@@ -133,6 +132,12 @@ export default {
       } else {
         this.success = true;
       }
+    },
+
+    next() {
+      this.inputWord = ''
+      this.wordsList1.find(item => item.word === this.currentWord).hasRecode = true;
+      this.getCurrentWord()
     },
 
     submit() {
@@ -238,7 +243,9 @@ page {
       }
 
       .btn {
-
+        display: flex;
+        align-items: center;
+        gap: 100rpx;
       }
     }
 
@@ -256,27 +263,8 @@ page {
       position: absolute;
       width: 100rpx;
       height: 100rpx;
-      // background: red;
       left: 0;
       top: 0;
-    }
-
-    .block2 {
-      position: absolute;
-      width: 100rpx;
-      height: 100rpx;
-      // background: red;
-      right: 0;
-      top: 0;
-    }
-
-    .block3 {
-      position: absolute;
-      width: 100rpx;
-      height: 100rpx;
-      // background: red;
-      left: 0;
-      bottom: 0;
     }
   }
 }

@@ -1,19 +1,26 @@
 {
 	"pages": [
 		{
-			"path": "pages/index/index",
+			"path" : "pages/login/login",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path": "pages/verification/verification",
 			"style": {
 				"navigationBarTitleText": ""
 			}
 		},
 		{
-			"path": "pages/idioms1/idioms1",
+			"path": "pages/gameMode/gameMode",
 			"style": {
 				"navigationBarTitleText": ""
 			}
 		},
 		{
-			"path": "pages/idioms2/idioms2",
+			"path": "pages/idioms/idioms",
 			"style": {
 				"navigationBarTitleText": ""
 			}
@@ -26,14 +33,14 @@
 			}
 		},
 		{
-			"path" : "pages/sentenceData/sentenceData",
+			"path" : "pages/sentence/sentence",
 			"style" :
 			{
 				"navigationBarTitleText" : ""
 			}
 		},
 		{
-			"path" : "pages/sentence/sentence",
+			"path" : "pages/sentenceData/sentenceData",
 			"style" :
 			{
 				"navigationBarTitleText" : ""

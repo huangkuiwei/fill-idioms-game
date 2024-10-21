@@ -1,12 +1,12 @@
 <template>
-  <view class="idioms2-index">
+  <view class="idioms-page">
     <view class="container">
       <template v-if="success">
         <view class="success-tip">通关成功！</view>
       </template>
 
       <template v-else-if="noQuestionBank">
-        <view class="no-word-tip">请先导入题库</view>
+        <view class="no-word-tip">请先导入成语</view>
       </template>
 
       <template v-else>
@@ -24,6 +24,7 @@
               @input="onInputChange($event, item)"
           />
         </view>
+        <view class="next" @click="next">下一关</view>
       </template>
     </view>
 
@@ -31,16 +32,14 @@
       <image mode="widthFix" src="/static/images/hongbao-icon.png" @click="$refs.hongbaoRef.open()" />
     </view>
 
-    <view class="block1" @click="jumpUrl('/pages/idioms1/idioms1')" @longtap="jumpUrl('/pages/data/data')"></view>
-    <view class="block2" @longtap="jumpUrl('/pages/data/data')"></view>
-    <view class="block3" @click="jumpUrl('/pages/sentence/sentence')" @longtap="jumpUrl('/pages/sentenceData/sentenceData')"></view>
+    <view class="block1" @longtap="jumpUrl('/pages/data/data')"></view>
 
     <uni-popup ref="successDialogRef" background-color="#ffffff" border-radius="5px 5px 5px 5px">
       <view class="success-dialog">
         <view class="title">恭喜回答正确!</view>
         <image class="success-icon" mode="widthFix" src="/static/images/success-icon.png"/>
         <view class="money">
-          增加可提现 <text>{{ money }}</text> 元
+          增加可提现 <text>{{ money }}</text>
         </view>
         <view class="btn" @click="$refs.successDialogRef.close(); focus = true">
           下一题
@@ -61,7 +60,7 @@
     <uni-popup ref="hongbaoRef" background-color="#ffffff" border-radius="5px 5px 5px 5px">
       <view class="hongbao-dialog">
         <view class="title">
-          当前红包余额：<text>{{ totalMoney.toFixed(2) }}元</text>
+          当前红包余额：<text>{{ totalMoney.toFixed(2) }}</text>
         </view>
 
         <image class="hongbao-icon2" mode="widthFix" src="/static/images/hongbao-icon2.png"/>
@@ -174,6 +173,9 @@ export default {
           setTimeout(() => {
             item.value = '';
             this.$refs.errorDialogRef.open();
+            this.level += 1;
+            this.wordsList.find(item => item.word === this.currentWord).hasRecode = true;
+            this.getCurrentWord();
           }, 200);
         }
       }, 10);
@@ -183,6 +185,13 @@ export default {
       uni.navigateTo({
         url: url
       })
+    },
+
+    next() {
+      this.level += 1;
+      this.wordsList.find(item => item.word === this.currentWord).value = '';
+      this.wordsList.find(item => item.word === this.currentWord).hasRecode = true;
+      this.getCurrentWord();
     },
 
     withdrawal() {
@@ -223,10 +232,10 @@ page {
   overflow: hidden;
 }
 
-.idioms2-index {
+.idioms-page {
   height: 100%;
   overflow: hidden;
-  background: url('/static/images/bg.png') top left/100% 100% no-repeat;
+  background: url('/static/images/bg2.jpg') top left/100% 100% no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -234,7 +243,6 @@ page {
 
   .container {
     width: 600rpx;
-    height: 300rpx;
     background: #ffffff;
     border-radius: 32rpx;
     display: flex;
@@ -272,6 +280,19 @@ page {
         }
       }
     }
+
+    .next {
+      width: 60%;
+      height: 80rpx;
+      margin-top: 40rpx;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #007aff;
+      background: #007aff20;
+      border-radius: 8rpx;
+      font-size: 32rpx;
+    }
   }
 
   .hongbao-icon {
@@ -288,27 +309,8 @@ page {
     position: absolute;
     width: 100rpx;
     height: 100rpx;
-    // background: red;
     left: 0;
     top: 0;
-  }
-
-  .block2 {
-    position: absolute;
-    width: 100rpx;
-    height: 100rpx;
-    // background: red;
-    right: 0;
-    top: 0;
-  }
-
-  .block3 {
-    position: absolute;
-    width: 100rpx;
-    height: 100rpx;
-    // background: red;
-    left: 0;
-    bottom: 0;
   }
 }
 
