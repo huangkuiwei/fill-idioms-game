@@ -1,6 +1,8 @@
 <template>
   <view class="data1-page">
     <!-- #ifdef APP-PLUS || H5 -->
+    <view class="page-title">录入句子</view>
+
     <view class="options">
       <button type="primary" @click="uploadFile1.onClick">上传文件</button>
       <button @click="clearData">清除数据</button>
@@ -97,6 +99,13 @@ export default {
 .data1-page {
   margin-top: 100rpx;
 
+  .page-title {
+    text-align: center;
+    margin-bottom: 40rpx;
+    font-size: 40rpx;
+    font-weight: bold;
+  }
+
   .options {
     display: flex;
     align-items: center;
@@ -113,7 +122,6 @@ export default {
 
     .title {
       font-size: 36rpx;
-      font-weight: bold;
       margin-bottom: 40rpx;
     }
 
