@@ -10,7 +10,7 @@
     <!-- #endif -->
 
     <view class="word-list">
-      <view class="title">当前系统导入数据：{{ wordsList.length ? '' : '(空)' }}</view>
+      <view class="title">当前系统录入数据：{{ wordsList.length ? '' : '(空)' }}</view>
 
       <view class="item" v-for="(item, index) of wordsList" :key="index">
         <text>{{ index + 1 }}、{{ item.word }}</text>

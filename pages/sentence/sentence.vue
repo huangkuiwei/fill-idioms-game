@@ -6,7 +6,7 @@
       </template>
 
       <template v-else-if="noQuestionBank">
-        <view class="no-word-tip">请先导入题库</view>
+        <view class="no-word-tip">请先录入句子</view>
       </template>
 
       <template v-else>
@@ -158,6 +158,35 @@ export default {
       uni.navigateTo({
         url: url
       })
+    },
+
+    withdrawal() {
+      if (!Number(this.totalMoney)) {
+        uni.showToast({
+          title: '余额不足',
+          icon: 'error'
+        })
+
+        return
+      }
+
+      uni.showLoading({
+        title: '请稍等...'
+      })
+
+      setTimeout(() => {
+        uni.hideLoading()
+
+        setTimeout(() => {
+          uni.showToast({
+            title: '提现成功',
+            icon: 'success'
+          })
+
+          this.totalMoney = 0
+          this.$refs.hongbaoRef.close()
+        })
+      }, 1000)
     }
   },
 };
@@ -233,12 +262,40 @@ page {
       .write-box {
         width: 100%;
         border-radius: 8rpx;
-        border: 1px solid #cccccc;
         margin-bottom: 40rpx;
+        position: relative;
+        display: block;
+        z-index: 1;
+        padding: 3px;
+        overflow: hidden;
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 200%;
+          height: 100%;
+          background: linear-gradient(115deg, #4fcf70, #fad648, #a767e5, #12bcfe, #44ce7b);
+          background-size: 50% 100%;
+        }
+
+        &::before {
+          animation: slide 1s linear infinite;
+
+          @keyframes slide {
+            to {
+              transform: translateX(-50%);
+            }
+          }
+        }
 
         textarea {
           padding: 20rpx;
           font-size: 32rpx;
+          z-index: 2;
+          background: #ffffff;
+          border-radius: 8rpx;
         }
       }
 

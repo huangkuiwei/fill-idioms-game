@@ -6,7 +6,7 @@
       </template>
 
       <template v-else-if="noQuestionBank">
-        <view class="no-word-tip">请先导入成语</view>
+        <view class="no-word-tip">请先录入成语</view>
       </template>
 
       <template v-else>
