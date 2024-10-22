@@ -61,6 +61,11 @@ export default {
     },
 
     getDeviceUuid() {
+      uni.showLoading({
+        title: '正在验证...',
+        mask: true
+      })
+
       plus.device.getInfo({
         success: (event) => {
           this.deviceUuid = event.uuid
@@ -73,17 +78,19 @@ export default {
               Authorization: `Bearer ${uni.getStorageSync('token')}`
             },
             success: (res) => {
-              if (!res.data.errors) {
-                if (res.data.data) {
-                  uni.navigateTo({
-                    url: '/pages/gameMode/gameMode'
+              setTimeout(() => {
+                if (!res.data.errors) {
+                  if (res.data.data) {
+                    uni.navigateTo({
+                      url: '/pages/gameMode/gameMode'
+                    })
+                  }
+                } else {
+                  uni.showToast({
+                    title: res.data.errors
                   })
                 }
-              } else {
-                uni.showToast({
-                  title: res.data.errors
-                })
-              }
+              }, 100)
             },
             complete: () => {
               uni.hideLoading()
