@@ -8,6 +8,12 @@ export default {
     }
   },
 
+  onShow() {
+    // #ifdef APP
+    this.getDeviceUuid()
+    // #endif
+  },
+
   methods: {
     verification() {
       if (!this.activationCode) {
@@ -33,7 +39,7 @@ export default {
         success: (res) => {
           if (!res.data.errors) {
             if (res.data.data) {
-              uni.navigateTo({
+              uni.redirectTo({
                 url: '/pages/gameMode/gameMode'
               })
             } else {
@@ -53,6 +59,54 @@ export default {
         }
       })
     },
+
+    getDeviceUuid() {
+      uni.showLoading({
+        title: '正在验证...',
+        mask: true
+      })
+
+      plus.device.getInfo({
+        success: (event) => {
+          this.deviceUuid = event.uuid
+
+          // 验证
+          uni.request({
+            url: `http://110.40.131.58:5000/api/app-bind-pwd/verifyapp/${this.deviceUuid}`,
+            method: 'POST',
+            header:{
+              Authorization: `Bearer ${uni.getStorageSync('token')}`
+            },
+            success: (res) => {
+              setTimeout(() => {
+                if (!res.data.errors) {
+                  if (res.data.data) {
+                    uni.redirectTo({
+                      url: '/pages/gameMode/gameMode'
+                    })
+                  }
+                } else {
+                  uni.showToast({
+                    title: res.data.errors
+                  })
+                }
+              }, 100)
+            },
+            complete: () => {
+              uni.hideLoading()
+            }
+          })
+        },
+        fail: () => {
+          uni.hideLoading()
+
+          uni.showToast({
+            title: '获取设备id失败',
+            icon: 'none'
+          })
+        }
+      })
+    }
   }
 }
 </script>

@@ -47,7 +47,7 @@ export default {
             uni.setStorageSync('token', res.data.data.accessToken)
             this.verification()
           } else {
-            uni.navigateTo({
+            uni.redirectTo({
               url: '/pages/verification/verification'
             })
           }
@@ -83,12 +83,12 @@ export default {
                   if (res.data.data) {
                     this.requestSuccess = true
                   } else {
-                    uni.navigateTo({
+                    uni.redirectTo({
                       url: '/pages/verification/verification'
                     })
                   }
                 } else {
-                  uni.navigateTo({
+                  uni.redirectTo({
                     url: '/pages/verification/verification'
                   })
                 }
@@ -100,7 +100,7 @@ export default {
           })
         },
         fail: () => {
-          uni.navigateTo({
+          uni.redirectTo({
             url: '/pages/verification/verification'
           })
         }
