@@ -163,7 +163,7 @@ export default {
 
         if (event.detail.value === item.trueValue) {
           setTimeout(() => {
-            this.money = Number((Math.random() + 1).toFixed(2));
+            this.money = Number((Math.random()).toFixed(2));
             this.totalMoney = this.totalMoney + this.money;
             this.$refs.successDialogRef.open();
             this.level += 1;

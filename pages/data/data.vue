@@ -37,7 +37,7 @@ export default {
     ...mapMutations('app', ['_setWordsList']),
 
     receiveRenderData(value) {
-      let splitValues = value.split('|').filter(item => item.length === 4)
+      let splitValues = value.split('|').map(item => item.replace(/[\r\n]/g,"")).filter(item => item.length === 4)
 
       let wordsList = []
 
