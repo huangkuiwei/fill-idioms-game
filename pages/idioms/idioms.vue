@@ -32,8 +32,6 @@
       <image mode="widthFix" src="/static/images/hongbao-icon.png" @click="$refs.hongbaoRef.open()" />
     </view>
 
-    <view class="block1" @longtap="jumpUrl('/pages/data/data')"></view>
-
     <uni-popup ref="successDialogRef" background-color="#ffffff" border-radius="5px 5px 5px 5px">
       <view class="success-dialog">
         <view class="title">恭喜回答正确!</view>
@@ -134,7 +132,10 @@ export default {
           }
         }
       } else {
-        this.success = true;
+        // this.success = true;
+        // 重新玩
+        this.wordsList.forEach(item => item.hasRecode = false)
+        this.getCurrentWord()
       }
     },
 
@@ -162,7 +163,7 @@ export default {
 
         if (event.detail.value === item.trueValue) {
           setTimeout(() => {
-            this.money = Number(Math.random().toFixed(2));
+            this.money = Number((Math.random() + 1).toFixed(2));
             this.totalMoney = this.totalMoney + this.money;
             this.$refs.successDialogRef.open();
             this.level += 1;
@@ -303,14 +304,6 @@ page {
     image {
       width: 100rpx;
     }
-  }
-
-  .block1 {
-    position: absolute;
-    width: 100rpx;
-    height: 100rpx;
-    left: 0;
-    top: 0;
   }
 }
 

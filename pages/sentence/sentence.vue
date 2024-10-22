@@ -39,8 +39,6 @@
       <image mode="widthFix" src="/static/images/hongbao-icon.png" @click="$refs.hongbaoRef.open()" />
     </view>
 
-    <view class="block1" @longtap="jumpUrl('/pages/sentenceData/sentenceData')"></view>
-
     <uni-popup ref="successDialogRef" background-color="#ffffff" border-radius="5px 5px 5px 5px">
       <view class="success-dialog">
         <view class="title">恭喜回答正确!</view>
@@ -130,11 +128,15 @@ export default {
           });
         }
       } else {
-        this.success = true;
+        // this.success = true;
+        // 重新玩
+        this.wordsList1.forEach(item => item.hasRecode = false)
+        this.getCurrentWord()
       }
     },
 
     next() {
+      this.level += 1;
       this.inputWord = ''
       this.wordsList1.find(item => item.word === this.currentWord).hasRecode = true;
       this.getCurrentWord()
@@ -146,8 +148,9 @@ export default {
         return
       }
 
+      this.level += 1;
       this.inputWord = ''
-      this.money = Number(Math.random().toFixed(2));
+      this.money = Number((Math.random() + 1).toFixed(2));
       this.totalMoney = this.totalMoney + this.money;
       this.wordsList1.find(item => item.word === this.currentWord).hasRecode = true;
       this.$refs.successDialogRef.open()
@@ -314,14 +317,6 @@ page {
       image {
         width: 64rpx;
       }
-    }
-
-    .block1 {
-      position: absolute;
-      width: 100rpx;
-      height: 100rpx;
-      left: 0;
-      top: 0;
     }
   }
 }

@@ -1,20 +1,13 @@
 {
 	"pages": [
 		{
-			"path" : "pages/login/login",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
-			}
-		},
-		{
-			"path": "pages/verification/verification",
+			"path": "pages/gameMode/gameMode",
 			"style": {
 				"navigationBarTitleText": ""
 			}
 		},
 		{
-			"path": "pages/gameMode/gameMode",
+			"path": "pages/verification/verification",
 			"style": {
 				"navigationBarTitleText": ""
 			}
