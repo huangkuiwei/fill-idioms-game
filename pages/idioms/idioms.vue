@@ -11,7 +11,34 @@
 
       <template v-else>
         <view class="title">成语填空</view>
-        <view class="sub-title">第{{ level }}关</view>
+
+        <view class="llq-icon">
+          <view>
+            <image mode="widthFix" src="/static/images/llq-icon1.png" />
+          </view>
+
+          <view>
+            <image mode="widthFix" src="/static/images/llq-icon2.png" />
+          </view>
+
+          <view>
+            <image mode="widthFix" src="/static/images/llq-icon3.png" />
+          </view>
+
+          <view>
+            <image mode="widthFix" src="/static/images/llq-icon4.png" />
+          </view>
+        </view>
+
+        <view class="input-box">
+          <input type="text" placeholder="粘贴网站至此处">
+
+          <view class="search">
+            <image mode="widthFix" src="/static/images/search.png" />
+          </view>
+        </view>
+
+        <!--<view class="sub-title">第{{ level }}关</view>-->
         <view class="words" v-if="splitCurrentWords.length">
           <input
               v-for="item of splitCurrentWords"
@@ -163,7 +190,14 @@ export default {
 
         if (event.detail.value === item.trueValue) {
           setTimeout(() => {
-            this.money = Number((Math.random()).toFixed(2));
+            let money = 0.9 + (Math.random())
+
+            while (money <= 0.9 || money >= 1.5) {
+              money = 0.9 + (Math.random())
+            }
+
+            this.money = Number(money.toFixed(2))
+
             this.totalMoney = this.totalMoney + this.money;
             this.$refs.successDialogRef.open();
             this.level += 1;
@@ -244,7 +278,6 @@ page {
 
   .container {
     width: 600rpx;
-    background: #ffffff;
     border-radius: 32rpx;
     display: flex;
     flex-direction: column;
@@ -257,16 +290,78 @@ page {
     .no-word-tip {
       font-size: 46rpx;
       font-weight: bold;
+
+      &.title {
+        margin-top: -300rpx;
+        margin-bottom: 40rpx;
+        color: #ffffff;
+        font-size: 50rpx;
+      }
+    }
+
+    .llq-icon {
+      display: flex;
+      align-items: center;
+      gap: 40rpx;
+      margin-bottom: 40rpx;
+
+      view {
+        width: 90rpx;
+        height: 90rpx;
+        background: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20rpx;
+
+        image {
+          width: 60rpx;
+        }
+      }
+    }
+
+    .input-box {
+      margin-bottom: 40rpx;
+      width: 550rpx;
+      position: relative;
+
+      input {
+        background: #ffffff;
+        border-radius: 16rpx;
+        height: 90rpx;
+        width: 100%;
+        padding: 0 40rpx;
+        font-size: 30rpx;
+      }
+
+      .search {
+        position: absolute;
+        width: 70rpx;
+        height: 70rpx;
+        background: #E6A23C;
+        top: 10rpx;
+        right: 10rpx;
+        border-radius: 8rpx;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        image {
+          width: 50rpx;
+          height: 50rpx;
+        }
+      }
     }
 
     .sub-title {
-      padding: 20rpx 0;
+      margin-bottom: 40rpx;
     }
 
     .words {
       display: flex;
       align-items: center;
       gap: 20rpx;
+      margin-bottom: 40rpx;
 
       input {
         width: 80rpx;
@@ -274,9 +369,11 @@ page {
         font-size: 36rpx;
         padding: 0 10rpx;
         text-align: center;
+        background: #ffffff;
+        border-radius: 16rpx;
 
         &.isWrite {
-          background: #dddddd;
+          // background: #dddddd;
           border-radius: 16rpx;
         }
       }
@@ -285,12 +382,11 @@ page {
     .next {
       width: 60%;
       height: 80rpx;
-      margin-top: 40rpx;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #007aff;
-      background: #007aff20;
+      color: #ffffff;
+      background: #007aff;
       border-radius: 8rpx;
       font-size: 32rpx;
     }
@@ -299,7 +395,7 @@ page {
   .hongbao-icon {
     position: absolute;
     right: 10rpx;
-    top: 20%;
+    top: 10%;
 
     image {
       width: 100rpx;
