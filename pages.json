@@ -38,6 +38,20 @@
 			{
 				"navigationBarTitleText" : ""
 			}
+		},
+		{
+			"path" : "pages/findError/findError",
+			"style" :
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/findErrorData/findErrorData",
+			"style" :
+			{
+				"navigationBarTitleText" : ""
+			}
 		}
 	],
 	"globalStyle": {

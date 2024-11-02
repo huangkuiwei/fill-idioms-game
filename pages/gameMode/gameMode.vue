@@ -3,6 +3,7 @@
     <view class="select" v-if="requestSuccess">
       <view>请选择游戏模式</view>
       <button type="primary" @click="jumpUrl('/pages/idioms/idioms')" @longtap="jumpUrl('/pages/data/data')">成语填空</button>
+      <button type="primary" @click="jumpUrl('/pages/findError/findError')" @longtap="jumpUrl('/pages/findErrorData/findErrorData')">成语找错</button>
       <button type="primary" @click="jumpUrl('/pages/sentence/sentence')" @longtap="jumpUrl('/pages/sentenceData/sentenceData')">句子填空</button>
     </view>
   </view>
@@ -12,7 +13,8 @@
 export default {
   data() {
     return {
-      requestSuccess: false
+      // TODO
+      requestSuccess: true
     }
   },
 

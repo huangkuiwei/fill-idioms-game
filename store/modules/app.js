@@ -3,7 +3,8 @@ const appStore = {
 
   state: {
     wordsList: [],
-    wordsList1: []
+    wordsList1: [],
+    wordsList2: []
   },
 
   mutations: {
@@ -13,6 +14,10 @@ const appStore = {
 
     _setWordsList1(state, payload) {
       state.wordsList1 = payload
+    },
+
+    _setWordsList2(state, payload) {
+      state.wordsList2 = payload
     }
   },
 
