@@ -35,8 +35,12 @@
       </template>
     </view>
 
-    <view class="hongbao-icon">
+    <view class="hongbao-icon" @click="getTotalMoney">
       <image mode="widthFix" src="/static/images/hongbao-icon.png" @click="$refs.hongbaoRef.open()" />
+    </view>
+
+    <view class="user-icon" @click="jumpUrl('/pages/userCenter/userCenter')">
+      <image mode="widthFix" src="/static/images/user-icon.png" />
     </view>
 
     <uni-popup ref="successDialogRef" background-color="#ffffff" border-radius="5px 5px 5px 5px">
@@ -71,8 +75,8 @@
         <image class="hongbao-icon2" mode="widthFix" src="/static/images/hongbao-icon2.png"/>
 
         <view class="btn">
-          <button size="mini" @click="$refs.hongbaoRef.close()">取消</button>
-          <button type="primary" size="mini" @click="withdrawal">提现</button>
+          <button size="mini" @click="$refs.hongbaoRef.close()">关闭</button>
+          <!--<button type="primary" size="mini" @click="withdrawal">提现</button>-->
         </view>
       </view>
     </uni-popup>
@@ -99,10 +103,12 @@ export default {
   },
 
   computed: {
-    ...mapState('app', ['wordsList1']),
+    ...mapState('app', ['wordsList1', 'deviceUuid']),
   },
 
   onShow() {
+    this.getTotalMoney()
+
     if (this.wordsList1.length) {
       this.noQuestionBank = false;
       this.getCurrentWord();
@@ -112,6 +118,19 @@ export default {
   },
 
   methods: {
+    getTotalMoney() {
+      uni.request({
+        url: `http://110.40.131.58:5000/api/app-bind-pwd/myhomeprice/${this.deviceUuid}`,
+        method: 'POST',
+        header:{
+          Authorization: `Bearer ${uni.getStorageSync('token')}`
+        },
+        success: (response) => {
+          this.totalMoney = response.data.data
+        }
+      })
+    },
+
     getCurrentWord() {
       let noRecodeList = this.wordsList1.filter((item) => !item.hasRecode);
 
@@ -151,10 +170,17 @@ export default {
       this.level += 1;
       this.inputWord = ''
       this.money = Number((Math.random() + 1).toFixed(2));
-      this.totalMoney = this.totalMoney + this.money;
       this.wordsList1.find(item => item.word === this.currentWord).hasRecode = true;
       this.$refs.successDialogRef.open()
       this.getCurrentWord()
+
+      uni.request({
+        url: `http://110.40.131.58:5000/api/app-bind-pwd/addwithdrawrecords/${this.deviceUuid}/${this.money}/2`,
+        method: 'POST',
+        header:{
+          Authorization: `Bearer ${uni.getStorageSync('token')}`
+        },
+      })
     },
 
     jumpUrl(url) {
@@ -163,34 +189,34 @@ export default {
       })
     },
 
-    withdrawal() {
-      if (!Number(this.totalMoney)) {
-        uni.showToast({
-          title: '余额不足',
-          icon: 'error'
-        })
-
-        return
-      }
-
-      uni.showLoading({
-        title: '请稍等...'
-      })
-
-      setTimeout(() => {
-        uni.hideLoading()
-
-        setTimeout(() => {
-          uni.showToast({
-            title: '提现成功',
-            icon: 'success'
-          })
-
-          this.totalMoney = 0
-          this.$refs.hongbaoRef.close()
-        })
-      }, 1000)
-    }
+    // withdrawal() {
+    //   if (!Number(this.totalMoney)) {
+    //     uni.showToast({
+    //       title: '余额不足',
+    //       icon: 'error'
+    //     })
+    //
+    //     return
+    //   }
+    //
+    //   uni.showLoading({
+    //     title: '请稍等...'
+    //   })
+    //
+    //   setTimeout(() => {
+    //     uni.hideLoading()
+    //
+    //     setTimeout(() => {
+    //       uni.showToast({
+    //         title: '提现成功',
+    //         icon: 'success'
+    //       })
+    //
+    //       this.totalMoney = 0
+    //       this.$refs.hongbaoRef.close()
+    //     })
+    //   }, 1000)
+    // }
   },
 };
 </script>
@@ -316,6 +342,23 @@ page {
 
       image {
         width: 64rpx;
+      }
+    }
+
+    .user-icon {
+      position: absolute;
+      right: 10rpx;
+      bottom: 10%;
+      width: 100rpx;
+      height: 100rpx;
+      background: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      image {
+        width: 50rpx;
       }
     }
   }

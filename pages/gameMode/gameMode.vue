@@ -10,28 +10,33 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from 'vuex'
+
 export default {
   data() {
     return {
-      // TODO
-      requestSuccess: true
+      requestSuccess: false
     }
   },
 
+  computed: {
+    ...mapState('app', ['deviceUuid'])
+  },
+
   onShow() {
-    // #ifdef APP
-    this.login()
-    // #endif
+    this.autoLogin()
   },
 
   methods: {
+    ...mapMutations('app', ['_setDeviceUuid']),
+
     jumpUrl(url) {
       uni.navigateTo({
         url: url
       })
     },
 
-    login() {
+    autoLogin() {
       uni.showLoading({
         title: '加载中...',
         mask: true
@@ -60,52 +65,57 @@ export default {
       })
     },
 
-    verification() {
+    async verification() {
       uni.showLoading({
         title: '加载中...',
         mask: true
       })
 
-      plus.device.getInfo({
-        success: (event) => {
-          let deviceUuid = event.uuid
+      // #ifdef APP
+      await this.getUuid()
+      // #endif
 
-          // 验证
-          uni.request({
-            url: `http://110.40.131.58:5000/api/app-bind-pwd/verifyapp/${deviceUuid}`,
-            method: 'POST',
-            header:{
-              Authorization: `Bearer ${uni.getStorageSync('token')}`
-            },
-            success: (res) => {
-              uni.hideLoading()
-
-              setTimeout(() => {
-                if (!res.data.errors) {
-                  if (res.data.data) {
-                    this.requestSuccess = true
-                  } else {
-                    uni.redirectTo({
-                      url: '/pages/verification/verification'
-                    })
-                  }
-                } else {
-                  uni.redirectTo({
-                    url: '/pages/verification/verification'
-                  })
-                }
-              }, 50)
-            },
-            complete: () => {
-              uni.hideLoading()
-            }
-          })
+      uni.request({
+        url: `http://110.40.131.58:5000/api/app-bind-pwd/verifyapp/${this.deviceUuid}`,
+        method: 'POST',
+        header:{
+          Authorization: `Bearer ${uni.getStorageSync('token')}`
         },
-        fail: () => {
-          uni.redirectTo({
-            url: '/pages/verification/verification'
-          })
+        success: (res) => {
+          if (!res.data.errors) {
+            if (res.data.data) {
+              this.requestSuccess = true
+            } else {
+              uni.redirectTo({
+                url: '/pages/verification/verification'
+              })
+            }
+          } else {
+            uni.redirectTo({
+              url: '/pages/verification/verification'
+            })
+          }
+        },
+        complete: () => {
+          uni.hideLoading()
         }
+      })
+    },
+
+    async getUuid() {
+      return new Promise((resolve, reject) => {
+        plus.device.getInfo({
+          success: (event) => {
+            this._setDeviceUuid(event.uuid)
+            resolve()
+          },
+          fail: () => {
+            uni.redirectTo({
+              url: '/pages/verification/verification'
+            })
+            reject()
+          }
+        })
       })
     }
   },

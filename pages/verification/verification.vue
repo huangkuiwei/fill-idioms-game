@@ -1,17 +1,20 @@
 <script>
+import { mapState } from 'vuex';
+
 export default {
   data() {
     return {
       loading: false,
-      deviceUuid: '',
       activationCode: ''
     }
   },
 
+  computed: {
+    ...mapState('app', ['deviceUuid'])
+  },
+
   onShow() {
-    // #ifdef APP
-    this.getDeviceUuid()
-    // #endif
+    this.autoCheck()
   },
 
   methods: {
@@ -60,50 +63,35 @@ export default {
       })
     },
 
-    getDeviceUuid() {
+    autoCheck() {
       uni.showLoading({
         title: '正在验证...',
         mask: true
       })
 
-      plus.device.getInfo({
-        success: (event) => {
-          this.deviceUuid = event.uuid
-
-          // 验证
-          uni.request({
-            url: `http://110.40.131.58:5000/api/app-bind-pwd/verifyapp/${this.deviceUuid}`,
-            method: 'POST',
-            header:{
-              Authorization: `Bearer ${uni.getStorageSync('token')}`
-            },
-            success: (res) => {
-              setTimeout(() => {
-                if (!res.data.errors) {
-                  if (res.data.data) {
-                    uni.redirectTo({
-                      url: '/pages/gameMode/gameMode'
-                    })
-                  }
-                } else {
-                  uni.showToast({
-                    title: res.data.errors
-                  })
-                }
-              }, 100)
-            },
-            complete: () => {
-              uni.hideLoading()
-            }
-          })
+      uni.request({
+        url: `http://110.40.131.58:5000/api/app-bind-pwd/verifyapp/${this.deviceUuid}`,
+        method: 'POST',
+        header:{
+          Authorization: `Bearer ${uni.getStorageSync('token')}`
         },
-        fail: () => {
+        success: (res) => {
+          setTimeout(() => {
+            if (!res.data.errors) {
+              if (res.data.data) {
+                uni.redirectTo({
+                  url: '/pages/gameMode/gameMode'
+                })
+              }
+            } else {
+              uni.showToast({
+                title: res.data.errors
+              })
+            }
+          }, 100)
+        },
+        complete: () => {
           uni.hideLoading()
-
-          uni.showToast({
-            title: '获取设备id失败',
-            icon: 'none'
-          })
         }
       })
     }
