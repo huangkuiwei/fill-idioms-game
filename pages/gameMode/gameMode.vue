@@ -72,7 +72,7 @@ export default {
       })
 
       // #ifdef APP
-      await this.getUuid()
+      // await this.getUuid()
       // #endif
 
       uni.request({
