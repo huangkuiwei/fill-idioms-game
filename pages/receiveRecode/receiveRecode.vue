@@ -44,6 +44,10 @@ export default {
     },
 
     getTotalMoney() {
+      uni.showLoading({
+        title: '请稍等...'
+      })
+
       uni.request({
         url: `http://110.40.131.58:5000/api/app-bind-pwd/myhomeprice/${this.deviceUuid}`,
         method: 'POST',
@@ -52,6 +56,9 @@ export default {
         },
         success: (response) => {
           this.totalMoney = response.data.data
+        },
+        complete: () => {
+          uni.hideLoading()
         }
       })
     },
@@ -89,6 +96,7 @@ export default {
                   })
 
                   this.getTotalMoney()
+                  this.getRecode()
                 }
               }
             })

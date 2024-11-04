@@ -11,7 +11,10 @@ export default {
     return {
       totalMoney: 0,
       base64String: '',
-      withdrawalMoney: null
+      withdrawalMoney: null,
+      username: '',
+      usernameBak: '',
+      usernameDialog: false
     }
   },
 
@@ -27,9 +30,14 @@ export default {
 
   onShow() {
     let base64String = uni.getStorageSync('base64String')
+    let username = uni.getStorageSync('username')
 
     if (base64String) {
       this.base64String = base64String
+    }
+
+    if (username) {
+      this.username = username
     }
 
     this.getTotalMoney()
@@ -43,6 +51,10 @@ export default {
     },
 
     getTotalMoney() {
+      uni.showLoading({
+        title: '请稍等...'
+      })
+
       uni.request({
         url: `http://110.40.131.58:5000/api/app-bind-pwd/myhomeprice/${this.deviceUuid}`,
         method: 'POST',
@@ -51,6 +63,9 @@ export default {
         },
         success: (response) => {
           this.totalMoney = response.data.data
+        },
+        complete: () => {
+          uni.hideLoading()
         }
       })
     },
@@ -107,6 +122,9 @@ export default {
             this.$refs.withdrawalDialogRef.close()
             this.getTotalMoney()
           }
+        },
+        complete: () => {
+          uni.hideLoading()
         }
       })
     },
@@ -132,7 +150,26 @@ export default {
         console.error("选择图片失败：" + error.message);
       });
     },
-  }
+
+    setUsername() {
+      this.$refs.usernameDialogRef.open()
+    },
+
+    usernameSubmit() {
+      if (!this.usernameBak.trim()) {
+        uni.showToast({
+          title: '无效用户名',
+          icon: 'error'
+        })
+
+        return
+      }
+
+      this.username = this.usernameBak
+      uni.setStorageSync('username', this.usernameBak)
+      this.$refs.usernameDialogRef.close()
+    }
+  },
 }
 </script>
 
@@ -143,6 +180,8 @@ export default {
         <uniIcons v-if="!base64String" type="person" color="#536277" size="38" />
         <image v-else :src="base64String" />
       </view>
+
+      <view class="username" @click="setUsername">{{ username || '默认用户名' }}</view>
 
       <view class="options">
         <view class="recode" @click="jumpUrl('/pages/receiveRecode/receiveRecode')">收益明细</view>
@@ -173,6 +212,22 @@ export default {
         </view>
       </view>
     </uni-popup>
+
+    <uni-popup ref="usernameDialogRef" background-color="#ffffff" border-radius="5px 5px 5px 5px">
+      <view class="username-dialog">
+        <view class="title">设置用户名</view>
+        <input type="text" v-model="usernameBak" placeholder="请输入用户名">
+        <view class="btn">
+          <button @click="$refs.usernameDialogRef.close()">
+            取消
+          </button>
+
+          <button type="primary" @click="usernameSubmit">
+            确定
+          </button>
+        </view>
+      </view>
+    </uni-popup>
   </view>
 </template>
 
@@ -190,7 +245,7 @@ page {
     padding: 40rpx;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    // justify-content: space-between;
     border-radius: 16rpx;
 
     .people {
@@ -208,6 +263,12 @@ page {
         height: 100%;
         border-radius: 50%;
       }
+    }
+
+    .username {
+      flex-grow: 1;
+      padding: 0 20rpx 0 40rpx;
+      color: #ffffff;
     }
 
     .options {
@@ -242,7 +303,7 @@ page {
     }
   }
 
-  .withdrawal-dialog {
+  .withdrawal-dialog, .username-dialog {
     width: 550rpx;
     padding: 40rpx 50rpx;
     display: flex;

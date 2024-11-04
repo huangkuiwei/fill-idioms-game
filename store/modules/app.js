@@ -3,8 +3,8 @@ const appStore = {
 
   state: {
     // TODO h5测试数据
-    // deviceUuid: '123456789',
-    deviceUuid: '',
+    deviceUuid: '123456789',
+    // deviceUuid: '',
     wordsList: [],
     wordsList1: [],
     wordsList2: [],
