@@ -10,7 +10,8 @@ export default {
   data() {
     return {
       totalMoney: 0,
-      base64String: ''
+      base64String: '',
+      withdrawalMoney: null
     }
   },
 
@@ -54,8 +55,30 @@ export default {
       })
     },
 
+    showWithdrawalDialog() {
+      if (Number(this.totalMoney) < 1) {
+        uni.showToast({
+          title: '余额不足1元',
+          icon: 'error'
+        })
+
+        return
+      }
+
+      this.$refs.withdrawalDialogRef.open()
+    },
+
     withdrawal() {
-      if (!Number(this.totalMoney)) {
+      if (Number(this.withdrawalMoney) < 1) {
+        uni.showToast({
+          title: '最低提现1元',
+          icon: 'error'
+        })
+
+        return
+      }
+
+      if (Number(this.withdrawalMoney) > this.totalMoney) {
         uni.showToast({
           title: '余额不足',
           icon: 'error'
@@ -64,41 +87,27 @@ export default {
         return
       }
 
-      uni.showModal({
-        title: '温馨提示',
-        content: '确定要进行提现吗？',
-        success: (data) => {
-          if (!data.cancel) {
-            uni.showLoading({
-              title: '请稍等...'
+      uni.showLoading({
+        title: '请稍等...'
+      })
+
+      uni.request({
+        url: `http://110.40.131.58:5000/api/app-bind-pwd/addwithdrawrecords/${this.deviceUuid}/${this.totalMoney}/1`,
+        method: 'POST',
+        header:{
+          Authorization: `Bearer ${uni.getStorageSync('token')}`
+        },
+        success: (res) => {
+          if (!res.data.errors) {
+            uni.showToast({
+              title: '提现成功',
+              icon: 'success'
             })
 
-            uni.request({
-              url: `http://110.40.131.58:5000/api/app-bind-pwd/addwithdrawrecords/${this.deviceUuid}/${this.totalMoney}/1`,
-              method: 'POST',
-              header:{
-                Authorization: `Bearer ${uni.getStorageSync('token')}`
-              },
-              success: (res) => {
-                if (!res.data.errors) {
-                  uni.showToast({
-                    title: '提现成功',
-                    icon: 'success'
-                  })
-
-                  this.getTotalMoney()
-                }
-              }
-            })
+            this.$refs.withdrawalDialogRef.close()
+            this.getTotalMoney()
           }
         }
-      })
-    },
-
-    selectError() {
-      uni.showToast({
-        title:'请选择图片文件',
-        icon:'error'
       })
     },
 
@@ -145,9 +154,25 @@ export default {
     </view>
 
     <uni-list>
-      <uni-list-item show-arrow title="余额提现" @click.native="withdrawal"></uni-list-item>
+      <uni-list-item show-arrow title="收益提现" @click.native="showWithdrawalDialog"></uni-list-item>
       <uni-list-item show-arrow title="我的客服"></uni-list-item>
     </uni-list>
+
+    <uni-popup ref="withdrawalDialogRef" background-color="#ffffff" border-radius="5px 5px 5px 5px">
+      <view class="withdrawal-dialog">
+        <view class="title">提现</view>
+        <input type="number" v-model="withdrawalMoney" placeholder="请输入提现金额">
+        <view class="btn">
+          <button @click="$refs.withdrawalDialogRef.close()">
+            取消
+          </button>
+
+          <button type="primary" @click="withdrawal">
+            确定
+          </button>
+        </view>
+      </view>
+    </uni-popup>
   </view>
 </template>
 
@@ -213,6 +238,45 @@ page {
             font-size: 42rpx;
           }
         }
+      }
+    }
+  }
+
+  .withdrawal-dialog {
+    width: 550rpx;
+    padding: 40rpx 50rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .title {
+      font-size: 40rpx;
+      font-weight: bold;
+      margin-bottom: 40rpx;
+    }
+
+    input {
+      height: 86rpx;
+      margin-bottom: 40rpx;
+      width: 100%;
+      border: 1px solid #cccccc;
+      border-radius: 16rpx;
+      padding: 0 30rpx;
+      font-size: 36rpx;
+    }
+
+    .btn {
+      align-self: stretch;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+
+      button {
+        width: 180rpx;
+        height: 70rpx;
+        line-height: 70rpx;
+        font-size: 30rpx;
       }
     }
   }

@@ -77,8 +77,11 @@
       <view class="error-dialog">
         <view class="title">很遗憾,回答错误</view>
         <image class="success-icon" mode="widthFix" src="/static/images/error-icon.png"/>
-        <view class="btn" @click="$refs.errorDialogRef.close(); focus = true">
-          确定
+        <view class="btn" style="margin-bottom: 30rpx" @click="resAnswer">
+          重新回答
+        </view>
+        <view class="btn" @click="next(); focus = true">
+          下一题
         </view>
       </view>
     </uni-popup>
@@ -86,7 +89,7 @@
     <uni-popup ref="hongbaoRef" background-color="#ffffff" border-radius="5px 5px 5px 5px">
       <view class="hongbao-dialog">
         <view class="title">
-          当前红包余额：<text>{{ totalMoney.toFixed(2) }}</text>
+          当前红包余额：<text>{{ totalMoney }}</text>
         </view>
 
         <image class="hongbao-icon2" mode="widthFix" src="/static/images/hongbao-icon2.png"/>
@@ -184,10 +187,14 @@ export default {
         })
       } else {
         this.$refs.errorDialogRef.open();
-        this.level += 1;
-        this.wordsList2.find(item => item === this.currentWord).hasRecode = true;
-        this.getCurrentWord();
+        // this.level += 1;
+        // this.wordsList2.find(item => item === this.currentWord).hasRecode = true;
+        // this.getCurrentWord();
       }
+    },
+
+    resAnswer() {
+      this.$refs.errorDialogRef.close()
     },
 
     jumpUrl(url) {
@@ -197,39 +204,11 @@ export default {
     },
 
     next() {
+      this.$refs.errorDialogRef.close()
       this.level += 1;
       this.wordsList2.find(item => item === this.currentWord).hasRecode = true;
       this.getCurrentWord();
     },
-
-    // withdrawal() {
-    //   if (!Number(this.totalMoney)) {
-    //     uni.showToast({
-    //       title: '余额不足',
-    //       icon: 'error'
-    //     })
-    //
-    //     return
-    //   }
-    //
-    //   uni.showLoading({
-    //     title: '请稍等...'
-    //   })
-    //
-    //   setTimeout(() => {
-    //     uni.hideLoading()
-    //
-    //     setTimeout(() => {
-    //       uni.showToast({
-    //         title: '提现成功',
-    //         icon: 'success'
-    //       })
-    //
-    //       this.totalMoney = 0
-    //       this.$refs.hongbaoRef.close()
-    //     })
-    //   }, 1000)
-    // }
   },
 };
 </script>
@@ -243,7 +222,7 @@ page {
 .find-error-page {
   height: 100%;
   overflow: hidden;
-  background: url('/static/images/bg2.jpg') top left/100% 100% no-repeat;
+  background: url('/static/images/bg2.png') top left/100% 100% no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -265,37 +244,35 @@ page {
       font-weight: bold;
 
       &.title {
-        margin-top: -300rpx;
-        margin-bottom: 40rpx;
+        margin-top: -350rpx;
+        margin-bottom: 60rpx;
         color: #ffffff;
-        font-size: 50rpx;
+        font-size: 70rpx;
       }
     }
 
     .llq-icon {
       display: flex;
       align-items: center;
-      gap: 40rpx;
-      margin-bottom: 40rpx;
+      margin-bottom: 20rpx;
 
       view {
-        width: 90rpx;
-        height: 90rpx;
-        background: #ffffff;
+        width: 140rpx;
+        height: 140rpx;
         display: flex;
         align-items: center;
         justify-content: center;
         border-radius: 20rpx;
 
         image {
-          width: 60rpx;
+          width: 100%;
         }
       }
     }
 
     .input-box {
-      margin-bottom: 40rpx;
-      width: 550rpx;
+      margin-bottom: 80rpx;
+      width: 600rpx;
       position: relative;
 
       input {
@@ -309,19 +286,14 @@ page {
 
       .search {
         position: absolute;
-        width: 70rpx;
-        height: 70rpx;
-        background: #E6A23C;
-        top: 10rpx;
+        top: 15rpx;
         right: 10rpx;
-        border-radius: 8rpx;
         display: flex;
         align-items: center;
         justify-content: center;
 
         image {
-          width: 50rpx;
-          height: 50rpx;
+          width: 100rpx;
         }
       }
     }
@@ -333,18 +305,24 @@ page {
     .words {
       display: flex;
       align-items: center;
-      gap: 20rpx;
+      gap: 40rpx;
       margin-bottom: 40rpx;
 
       text {
-        width: 80rpx;
-        height: 80rpx;
-        line-height: 80rpx;
+        width: 100rpx;
+        height: 100rpx;
+        line-height: 100rpx;
         font-size: 36rpx;
         padding: 0 10rpx;
         text-align: center;
         background: #ffffff;
-        border-radius: 16rpx;
+        border-radius: 24rpx;
+        border: 2px solid #00a099;
+        color: #005456;
+
+        &.isWrite {
+          border: 2px solid #ff8769;
+        }
       }
     }
 
@@ -419,7 +397,7 @@ page {
 
   .btn {
     width: 100%;
-    padding: 10rpx 0;
+    padding: 20rpx 0;
     text-align: center;
     color: #007aff;
     background: #007aff20;

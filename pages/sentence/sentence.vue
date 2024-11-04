@@ -69,7 +69,7 @@
     <uni-popup ref="hongbaoRef" background-color="#ffffff" border-radius="5px 5px 5px 5px">
       <view class="hongbao-dialog">
         <view class="title">
-          当前红包余额：<text>{{ totalMoney.toFixed(2) }}</text>
+          当前红包余额：<text>{{ totalMoney }}</text>
         </view>
 
         <image class="hongbao-icon2" mode="widthFix" src="/static/images/hongbao-icon2.png"/>

@@ -57,9 +57,9 @@ export default {
     },
 
     withdrawal() {
-      if (!Number(this.totalMoney)) {
+      if (Number(this.totalMoney) < 1) {
         uni.showToast({
-          title: '余额不足',
+          title: '余额不足1元',
           icon: 'error'
         })
 
@@ -68,7 +68,7 @@ export default {
 
       uni.showModal({
         title: '温馨提示',
-        content: '确定要进行提现吗？',
+        content: '确定要全部提现吗？',
         success: (data) => {
           if (!data.cancel) {
             uni.showLoading({
@@ -112,7 +112,7 @@ export default {
         <view class="right" @click="withdrawal">全部提现</view>
       </view>
 
-      <view class="bottom">(提现手续费0%，单次提现访问为0~500元)</view>
+      <view class="bottom">(提现手续费0%，单次提现范围为1~500元)</view>
     </view>
 
     <uni-list class="recode-list">

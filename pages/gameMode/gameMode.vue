@@ -131,7 +131,7 @@ page {
 .game-mode-page {
   height: 100%;
   overflow: hidden;
-  background: url('/static/images/bg2.jpg') top left/100% 100% no-repeat;
+  background: url('/static/images/bg2.png') top left/100% 100% no-repeat;
   display: flex;
   align-items: center;
   justify-content: center;
