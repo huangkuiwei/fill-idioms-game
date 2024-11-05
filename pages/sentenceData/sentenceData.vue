@@ -61,6 +61,7 @@ export default {
 
     clearData() {
       this._setWordsList1([])
+      uni.setStorageSync('wordsList1', [])
     }
   }
 }
