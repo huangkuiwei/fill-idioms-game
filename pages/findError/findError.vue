@@ -73,7 +73,7 @@
 
     <uni-popup ref="successDialogRef" background-color="#ffffff" border-radius="5px 5px 5px 5px">
       <view class="success-dialog">
-        <view class="title">恭喜回答正确!</view>
+        <view class="title">回答正确，({{ correctWords }})</view>
         <image class="success-icon" mode="widthFix" src="/static/images/success-icon.png"/>
         <view class="money">
           增加可提现 <text>{{ money }}</text>
@@ -129,6 +129,7 @@ export default {
       totalMoney: 0,
       focus: false,
       date: Date.now(),
+      correctWords: '',
       showNoticeDialog: false
     };
   },
@@ -176,7 +177,16 @@ export default {
       }
     },
 
+    modifyString(str, index, char) {
+      if (index < 0 || index >= str.length) {
+        throw new Error('Index out of bounds');
+      }
+      return str.substring(0, index) + char + str.substring(index + 1);
+    },
+
     onClickWord(item, index) {
+      this.correctWords = this.modifyString(this.currentWord.word, this.currentWord.errorWordIndex, this.currentWord.correctWord)
+
       if (index === this.currentWord.errorWordIndex) {
         this.showNoticeDialog = true
 
@@ -265,7 +275,8 @@ page {
         margin-top: -350rpx;
         margin-bottom: 60rpx;
         color: #ffffff;
-        font-size: 70rpx;
+        font-size: 84rpx;
+        letter-spacing: 2px;
       }
     }
 
@@ -275,8 +286,8 @@ page {
       margin-bottom: 20rpx;
 
       view {
-        width: 140rpx;
-        height: 140rpx;
+        width: 120rpx;
+        height: 120rpx;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -296,10 +307,10 @@ page {
       input {
         background: #ffffff;
         border-radius: 16rpx;
-        height: 90rpx;
+        height: 80rpx;
         width: 100%;
         padding: 0 40rpx;
-        font-size: 30rpx;
+        font-size: 26rpx;
       }
 
       .search {
@@ -327,10 +338,10 @@ page {
       margin-bottom: 40rpx;
 
       text {
-        width: 100rpx;
-        height: 100rpx;
+        width: 110rpx;
+        height: 110rpx;
         line-height: 100rpx;
-        font-size: 36rpx;
+        font-size: 60rpx;
         padding: 0 10rpx;
         text-align: center;
         background: #ffffff;

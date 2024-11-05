@@ -315,7 +315,8 @@ page {
         margin-top: -350rpx;
         margin-bottom: 60rpx;
         color: #ffffff;
-        font-size: 70rpx;
+        font-size: 84rpx;
+        letter-spacing: 2px;
       }
     }
 
@@ -346,10 +347,10 @@ page {
       input {
         background: #ffffff;
         border-radius: 16rpx;
-        height: 90rpx;
+        height: 80rpx;
         width: 100%;
         padding: 0 40rpx;
-        font-size: 30rpx;
+        font-size: 26rpx;
       }
 
       .search {
@@ -377,9 +378,9 @@ page {
       margin-bottom: 40rpx;
 
       input {
-        width: 100rpx;
-        height: 100rpx;
-        font-size: 36rpx;
+        width: 110rpx;
+        height: 110rpx;
+        font-size: 60rpx;
         padding: 0 10rpx;
         text-align: center;
         background: #ffffff;

@@ -107,7 +107,7 @@ export default {
       })
 
       uni.request({
-        url: `http://110.40.131.58:5000/api/app-bind-pwd/addwithdrawrecords/${this.deviceUuid}/${this.totalMoney}/1`,
+        url: `http://110.40.131.58:5000/api/app-bind-pwd/addwithdrawrecords/${this.deviceUuid}/${this.withdrawalMoney}/1`,
         method: 'POST',
         header:{
           Authorization: `Bearer ${uni.getStorageSync('token')}`
