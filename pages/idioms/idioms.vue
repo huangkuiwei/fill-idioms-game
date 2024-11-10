@@ -55,16 +55,16 @@
       </template>
     </view>
 
-    <view class="notice-dialog" v-if="showNoticeDialog">
-      <view class="left">
-        <image mode="widthFix" src="/static/images/horn.png"/>
-      </view>
+    <!--<view class="notice-dialog" v-if="showNoticeDialog">-->
+    <!--  <view class="left">-->
+    <!--    <image mode="widthFix" src="/static/images/horn.png"/>-->
+    <!--  </view>-->
 
-      <view class="right">
-        <text>服务通知</text>
-        <text>微信支付：零钱提现到账</text>
-      </view>
-    </view>
+    <!--  <view class="right">-->
+    <!--    <text>服务通知</text>-->
+    <!--    <text>微信支付：零钱提现到账</text>-->
+    <!--  </view>-->
+    <!--</view>-->
 
     <view class="hongbao-icon" @click="getTotalMoney">
       <image mode="widthFix" src="/static/images/hongbao-icon.png" @click="$refs.hongbaoRef.open()" />
