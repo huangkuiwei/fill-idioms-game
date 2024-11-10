@@ -12,31 +12,31 @@
       <template v-else>
         <view class="title">成语找错</view>
 
-        <view class="llq-icon">
-          <view>
-            <image mode="widthFix" src="/static/images/llq-icon1.png" />
-          </view>
+        <!--<view class="llq-icon">-->
+        <!--  <view>-->
+        <!--    <image mode="widthFix" src="/static/images/llq-icon1.png" />-->
+        <!--  </view>-->
 
-          <view>
-            <image mode="widthFix" src="/static/images/llq-icon2.png" />
-          </view>
+        <!--  <view>-->
+        <!--    <image mode="widthFix" src="/static/images/llq-icon2.png" />-->
+        <!--  </view>-->
 
-          <view>
-            <image mode="widthFix" src="/static/images/llq-icon3.png" />
-          </view>
+        <!--  <view>-->
+        <!--    <image mode="widthFix" src="/static/images/llq-icon3.png" />-->
+        <!--  </view>-->
 
-          <view>
-            <image mode="widthFix" src="/static/images/llq-icon4.png" />
-          </view>
-        </view>
+        <!--  <view>-->
+        <!--    <image mode="widthFix" src="/static/images/llq-icon4.png" />-->
+        <!--  </view>-->
+        <!--</view>-->
 
-        <view class="input-box">
-          <input type="text" placeholder="粘贴网站至此处">
+        <!--<view class="input-box">-->
+        <!--  <input type="text" placeholder="粘贴网站至此处">-->
 
-          <view class="search">
-            <image mode="widthFix" src="/static/images/search.png" />
-          </view>
-        </view>
+        <!--  <view class="search">-->
+        <!--    <image mode="widthFix" src="/static/images/search.png" />-->
+        <!--  </view>-->
+        <!--</view>-->
 
         <!--<view class="sub-title">第{{ level }}关</view>-->
         <view class="words" v-if="currentWord.word">
@@ -50,6 +50,17 @@
         </view>
         <view class="next" @click="next">下一关</view>
       </template>
+    </view>
+
+    <view class="notice-dialog" v-if="showNoticeDialog">
+      <view class="left">
+        <image mode="widthFix" src="/static/images/horn.png"/>
+      </view>
+
+      <view class="right">
+        <text>服务通知</text>
+        <text>微信支付：零钱提现到账</text>
+      </view>
     </view>
 
     <view class="hongbao-icon" @click="getTotalMoney">
@@ -117,7 +128,8 @@ export default {
       money: 0,
       totalMoney: 0,
       focus: false,
-      date: Date.now()
+      date: Date.now(),
+      showNoticeDialog: false
     };
   },
 
@@ -166,6 +178,12 @@ export default {
 
     onClickWord(item, index) {
       if (index === this.currentWord.errorWordIndex) {
+        this.showNoticeDialog = true
+
+        setTimeout(() => {
+          this.showNoticeDialog = false
+        }, 2500)
+
         let money = 0.9 + (Math.random())
 
         while (money <= 0.9 || money >= 1.5) {
@@ -363,6 +381,77 @@ page {
 
     image {
       width: 50rpx;
+    }
+  }
+}
+
+.notice-dialog {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  position: fixed;
+  z-index: 999;
+  left: 40rpx;
+  right: 40rpx;
+  border-radius: 8rpx;
+  padding: 30rpx 30rpx;
+  top: 0;
+  opacity: 0;
+  transition: all 0.3s ease;
+  animation: 2.5s ease kf1;
+
+  @keyframes kf1 {
+    0% {
+      top: 0;
+      opacity: 0;
+    }
+
+    20% {
+      top: 100rpx;
+      opacity: 1;
+    }
+
+    80% {
+      top: 100rpx;
+      opacity: 1;
+    }
+
+    100% {
+      top: 0;
+      opacity: 0;
+    }
+  }
+
+  .left {
+    background: #00a099;
+    width: 90rpx;
+    height: 90rpx;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 40rpx;
+
+    image {
+      width: 50rpx;
+    }
+  }
+
+  .right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10rpx;
+
+    text {
+      &:nth-child(1) {
+        font-size: 32rpx;
+        font-weight: bold;
+      }
+
+      &:nth-child(2) {
+        font-size: 28rpx;
+      }
     }
   }
 }
