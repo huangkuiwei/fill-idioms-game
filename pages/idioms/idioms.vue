@@ -326,8 +326,8 @@ page {
       margin-bottom: 20rpx;
 
       view {
-        width: 140rpx;
-        height: 140rpx;
+        width: 120rpx;
+        height: 120rpx;
         display: flex;
         align-items: center;
         justify-content: center;

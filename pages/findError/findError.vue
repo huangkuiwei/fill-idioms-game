@@ -340,7 +340,7 @@ page {
       text {
         width: 110rpx;
         height: 110rpx;
-        line-height: 100rpx;
+        line-height: 110rpx;
         font-size: 60rpx;
         padding: 0 10rpx;
         text-align: center;
