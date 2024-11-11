@@ -187,6 +187,7 @@ page {
 
   .adv-dialog {
     width: 550rpx;
+    height: 400rpx;
     background: #ffffff;
     display: flex;
     flex-direction: column;
@@ -195,18 +196,19 @@ page {
 
     video {
       width: 460rpx;
+      height: 260rpx;
     }
 
     .btn {
-      margin-top: 30rpx;
+      margin-top: 50rpx;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 0 0 30rpx;
 
       text {
-        padding: 12rpx 120rpx;
-        font-size: 28rpx;
+        padding: 8rpx 100rpx;
+        font-size: 26rpx;
         color: #ffffff;
         background: #007aff;
         border-radius: 30rpx;
