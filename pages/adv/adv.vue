@@ -37,6 +37,12 @@ export default {
   },
 
   methods: {
+    jumpUrl(url) {
+      uni.navigateTo({
+        url: url
+      })
+    },
+
     lookAdv(item) {
       this.currentAdv = item
       this.$refs.advDialog.open()
@@ -111,6 +117,10 @@ export default {
         </view>
       </view>
     </uni-popup>
+
+    <view class="user-icon" @click="jumpUrl('/pages/userCenter/userCenter')">
+      <image mode="widthFix" src="/static/images/user-icon.png" />
+    </view>
   </view>
 </template>
 
@@ -228,6 +238,23 @@ page {
     .btn {
       text-align: right;
       color: #007aff;
+    }
+  }
+
+  .user-icon {
+    position: fixed;
+    right: 10rpx;
+    bottom: 10%;
+    width: 100rpx;
+    height: 100rpx;
+    background: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    image {
+      width: 50rpx;
     }
   }
 }
