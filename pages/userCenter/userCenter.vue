@@ -73,7 +73,7 @@ export default {
     showWithdrawalDialog() {
       if (Number(this.totalMoney) < 1) {
         uni.showToast({
-          title: '余额不足1元',
+          title: '余额不足1',
           icon: 'error'
         })
 
@@ -86,7 +86,7 @@ export default {
     withdrawal() {
       if (Number(this.withdrawalMoney) < 1) {
         uni.showToast({
-          title: '最低提现1元',
+          title: '最低提现1',
           icon: 'error'
         })
 

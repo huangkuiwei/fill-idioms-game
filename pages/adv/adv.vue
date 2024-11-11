@@ -111,7 +111,7 @@ export default {
         border-radius="20px 20px 20px 20px"
     >
       <view class="success-dialog">
-        <view class="tip">观看成功，增加{{currentAdv.money}}元</view>
+        <view class="tip">观看成功，增加{{currentAdv.money}}</view>
         <view class="btn">
           <text @click="$refs.successDialog.close()">知道了</text>
         </view>
