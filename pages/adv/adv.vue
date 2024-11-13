@@ -6,30 +6,17 @@ export default {
 
   data() {
     return {
-      advList: [
-        { name: '01', videoSrc: '/static/videos/01.mp4', money: 2.5 },
-        { name: '02', videoSrc: '/static/videos/02.mp4', money: 1.8 },
-        { name: '03', videoSrc: '/static/videos/03.mp4', money: 2.7 },
-        { name: '04', videoSrc: '/static/videos/04.mp4', money: 2.1 },
-        { name: '05', videoSrc: '/static/videos/05.mp4', money: 1.4 },
-        { name: '06', videoSrc: '/static/videos/06.mp4', money: 3.1 },
-        { name: '07', videoSrc: '/static/videos/07.mp4', money: 1.5 },
-        { name: '08', videoSrc: '/static/videos/08.mp4', money: 2.4 },
-        { name: '09', videoSrc: '/static/videos/09.mp4', money: 2.9 },
-        { name: '10', videoSrc: '/static/videos/10.mp4', money: 1.1 },
-        { name: '11', videoSrc: '/static/videos/11.mp4', money: 1.5 },
-        { name: '12', videoSrc: '/static/videos/12.mp4', money: 2.8 },
-        { name: '13', videoSrc: '/static/videos/13.mp4', money: 1.8 },
-        { name: '14', videoSrc: '/static/videos/14.mp4', money: 1.1 },
-        { name: '15', videoSrc: '/static/videos/15.mp4', money: 2.9 },
-        { name: '16', videoSrc: '/static/videos/16.mp4', money: 2.4 },
-        { name: '17', videoSrc: '/static/videos/17.mp4', money: 2.1 },
-        { name: '18', videoSrc: '/static/videos/18.mp4', money: 1.4 },
-        { name: '19', videoSrc: '/static/videos/19.mp4', money: 1.9 },
-        { name: '20', videoSrc: '/static/videos/20.mp4', money: 2.8 },
-      ],
+      advList: [],
       currentAdv: {}
     }
+  },
+
+  onLoad() {
+    this.advList = []
+
+    new Array(20).fill(undefined).forEach((item, index) => {
+      this.advList.push( { name: index + 1, videoSrc: `/static/videos/${Math.ceil(Math.random() * 20)}.mp4`, money: (Math.random() * 2 + 1.5).toFixed(2) },)
+    })
   },
 
   computed: {
@@ -74,7 +61,7 @@ export default {
         <image mode="widthFix" src="/static/images/douyin.png"/>
 
         <view class="tip">
-          <text>看视频领现金红包&nbsp;{{item.name}}</text>
+          <text>看视频领现金红包</text>
           <text>观看精彩视频即可领取丰厚</text>
         </view>
 
