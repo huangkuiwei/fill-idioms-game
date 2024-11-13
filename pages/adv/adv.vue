@@ -14,7 +14,7 @@ export default {
   onLoad() {
     this.advList = []
 
-    new Array(20).fill(undefined).forEach((item, index) => {
+    new Array(40).fill(undefined).forEach((item, index) => {
       this.advList.push( { name: index + 1, videoSrc: `/static/videos/${Math.ceil(Math.random() * 20)}.mp4`, money: (Math.random() * 2 + 1.5).toFixed(2) },)
     })
   },
