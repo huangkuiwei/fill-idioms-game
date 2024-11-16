@@ -194,11 +194,8 @@ export default {
           this.showNoticeDialog = false
         }, 2500)
 
-        let money = 0.9 + (Math.random())
-
-        while (money <= 0.9 || money >= 1.5) {
-          money = 0.9 + (Math.random())
-        }
+        let moneyData = uni.getStorageSync('moneyData')[1]
+        let money = Number(moneyData.minMoney) + Math.random() * (moneyData.maxMoney - moneyData.minMoney)
 
         this.money = Number(money.toFixed(2))
         this.$refs.successDialogRef.open();

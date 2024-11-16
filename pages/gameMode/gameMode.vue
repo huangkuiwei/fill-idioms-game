@@ -6,6 +6,7 @@
       <button type="primary" @click="jumpUrl('/pages/findError/findError')" @longtap="jumpUrl('/pages/findErrorData/findErrorData')">成语找错</button>
       <button type="primary" @click="jumpUrl('/pages/sentence/sentence')" @longtap="jumpUrl('/pages/sentenceData/sentenceData')">句子填空</button>
       <button type="primary" @click="jumpUrl('/pages/adv/adv')">看视频得收益</button>
+      <button type="primary" @click="jumpUrl('/pages/setMoney/setMoney')">设置金额</button>
     </view>
   </view>
 </template>

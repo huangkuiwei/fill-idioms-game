@@ -15,7 +15,10 @@ export default {
     this.advList = []
 
     new Array(40).fill(undefined).forEach((item, index) => {
-      this.advList.push( { name: index + 1, videoSrc: `/static/videos/${Math.ceil(Math.random() * 20)}.mp4`, money: (Math.random() * 2 + 1.5).toFixed(2) },)
+      let moneyData = uni.getStorageSync('moneyData')[3]
+      let money = Number(moneyData.minMoney) + Math.random() * (moneyData.maxMoney - moneyData.minMoney)
+
+      this.advList.push( { name: index + 1, videoSrc: `/static/videos/${Math.ceil(Math.random() * 20)}.mp4`, money: money.toFixed(2) },)
     })
   },
 
@@ -58,11 +61,11 @@ export default {
   <view class="adv-page">
     <view class="adv-list">
       <view class="adv-item" v-for="item of advList" :key="item.name">
-        <image mode="widthFix" src="/static/images/douyin.png"/>
+        <image mode="widthFix" src="/static/images/douyin.jpg"/>
 
         <view class="tip">
-          <text>看视频领现金红包</text>
-          <text>观看精彩视频即可领取丰厚</text>
+          <text>看视频自动获得</text>
+          <!--<text>观看精彩视频即可领取丰厚</text>-->
         </view>
 
         <view class="options">
@@ -147,7 +150,7 @@ page {
         text {
           &:nth-child(1) {
             font-weight: bold;
-            font-size: 32rpx;
+            font-size: 36rpx;
           }
 
           &:nth-child(2) {

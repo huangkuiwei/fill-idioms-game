@@ -169,7 +169,11 @@ export default {
 
       this.level += 1;
       this.inputWord = ''
-      this.money = Number((Math.random() + 1).toFixed(2));
+
+      let moneyData = uni.getStorageSync('moneyData')[2]
+      let money = Number(moneyData.minMoney) + Math.random() * (moneyData.maxMoney - moneyData.minMoney)
+
+      this.money = Number(money.toFixed(2));
       this.wordsList1.find(item => item.word === this.currentWord).hasRecode = true;
       this.$refs.successDialogRef.open()
       this.getCurrentWord()
