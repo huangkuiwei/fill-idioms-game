@@ -35,7 +35,7 @@ export default {
 
   methods: {
     submit() {
-      if (this.moneyData[0].minMoney <= 0 || this.moneyData[0].maxMoney <= 0) {
+      if (Number(Number(this.moneyData[0].minMoney)) <= 0 || Number(Number(this.moneyData[0].maxMoney)) <= 0) {
         uni.showToast({
           title:'金额需大于0',
           icon:'error'
@@ -44,7 +44,7 @@ export default {
         return
       }
 
-      if (this.moneyData[1].minMoney <= 0 || this.moneyData[1].maxMoney <= 0) {
+      if (Number(Number(this.moneyData[1].minMoney)) <= 0 || Number(Number(this.moneyData[1].maxMoney)) <= 0) {
         uni.showToast({
           title:'金额需大于0',
           icon:'error'
@@ -53,7 +53,7 @@ export default {
         return
       }
 
-      if (this.moneyData[2].minMoney <= 0 || this.moneyData[2].maxMoney <= 0) {
+      if (Number(this.moneyData[2].minMoney) <= 0 || Number(this.moneyData[2].maxMoney) <= 0) {
         uni.showToast({
           title:'金额需大于0',
           icon:'error'
@@ -62,7 +62,7 @@ export default {
         return
       }
 
-      if (this.moneyData[3].minMoney <= 0 || this.moneyData[3].maxMoney <= 0) {
+      if (Number(this.moneyData[3].minMoney) <= 0 || Number(this.moneyData[3].maxMoney) <= 0) {
         uni.showToast({
           title:'金额需大于0',
           icon:'error'
@@ -71,7 +71,7 @@ export default {
         return
       }
 
-      if (this.moneyData[0].minMoney >= this.moneyData[0].maxMoney) {
+      if (Number(this.moneyData[0].minMoney) >= Number(this.moneyData[0].maxMoney)) {
         uni.showToast({
           title:'最大值需大于最小值',
           icon:'error'
@@ -80,7 +80,7 @@ export default {
         return
       }
 
-      if (this.moneyData[1].minMoney >= this.moneyData[1].maxMoney) {
+      if (Number(this.moneyData[1].minMoney) >= Number(this.moneyData[1].maxMoney)) {
         uni.showToast({
           title:'最大值需大于最小值',
           icon:'error'
@@ -89,7 +89,7 @@ export default {
         return
       }
 
-      if (this.moneyData[2].minMoney >= this.moneyData[2].maxMoney) {
+      if (Number(this.moneyData[2].minMoney) >= Number(this.moneyData[2].maxMoney)) {
         uni.showToast({
           title:'最大值需大于最小值',
           icon:'error'
@@ -98,7 +98,7 @@ export default {
         return
       }
 
-      if (this.moneyData[3].minMoney >= this.moneyData[3].maxMoney) {
+      if (Number(this.moneyData[3].minMoney) >= Number(this.moneyData[3].maxMoney)) {
         uni.showToast({
           title:'最大值需大于最小值',
           icon:'error'
