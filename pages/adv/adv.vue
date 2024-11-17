@@ -14,11 +14,11 @@ export default {
   onLoad() {
     this.advList = []
 
-    new Array(40).fill(undefined).forEach((item, index) => {
+    new Array(60).fill(undefined).forEach((item, index) => {
       let moneyData = uni.getStorageSync('moneyData')[3]
       let money = Number(moneyData.minMoney) + Math.random() * (moneyData.maxMoney - moneyData.minMoney)
 
-      this.advList.push( { name: index + 1, videoSrc: `/static/videos/${Math.ceil(Math.random() * 20)}.mp4`, money: money.toFixed(2) },)
+      this.advList.push( { name: index + 1, videoSrc: `/static/videos/${Math.ceil(Math.random() * 60)}.mp4`, money: money.toFixed(2) },)
     })
   },
 
@@ -59,18 +59,27 @@ export default {
 
 <template>
   <view class="adv-page">
+    <view class="tabs">
+      <view class="tab">热点</view>
+      <view class="tab">生活</view>
+      <view class="tab">商城</view>
+      <view class="tab">推荐</view>
+      <view class="tab">朋友</view>
+      <view class="tab">视频</view>
+    </view>
+
     <view class="adv-list">
-      <view class="adv-item" v-for="item of advList" :key="item.name">
-        <image mode="widthFix" src="/static/images/douyin.jpg"/>
+      <view class="adv-item" v-for="item of advList" :key="item.name"  @click="lookAdv(item)">
+        <view class="poster">
+          <image mode="widthFix" src="/static/images/video-icon.png"/>
+        </view>
 
         <view class="tip">
           <text>看视频自动获得</text>
-          <!--<text>观看精彩视频即可领取丰厚</text>-->
         </view>
 
-        <view class="options">
-          <text>+{{item.money}}</text>
-          <text @click="lookAdv(item)">前往</text>
+        <view class="money">
+          +{{item.money}}
         </view>
       </view>
     </view>
@@ -116,27 +125,82 @@ export default {
 
 <style lang="scss">
 page {
-  background: #efefef;
-  padding: 100rpx 0;
+  background: #f5f5f5;
+  padding: 100rpx 0 0;
+  height: 100%;
+  overflow: hidden;
 }
 
 .adv-page {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  .tabs {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 40rpx;
+    padding: 0 60rpx 20rpx;
+    margin-bottom: 40rpx;
+    border-bottom: 1px solid #cccccc;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    .tab {
+      flex-shrink: 0;
+      font-size: 34rpx;
+
+      &:nth-child(6) {
+        position: relative;
+
+        &:after {
+          content: '';
+          position: absolute;
+          bottom: -20rpx;
+          left: -20rpx;
+          width: 100rpx;
+          height: 4rpx;
+          background: #007aff;
+          border-radius: 4rpx;
+        }
+      }
+    }
+  }
+
   .adv-list {
+    flex-grow: 1;
+    overflow: auto;
     padding: 0 30rpx;
     display: flex;
-    flex-direction: column;
-    gap: 40rpx;
+    flex-wrap: wrap;
+    justify-content: space-between;
 
     .adv-item {
+      width: 48%;
       background: #ffffff;
       padding: 20rpx 20rpx;
       border-radius: 16rpx;
       display: flex;
-      align-items: center;
+      flex-direction: column;
+      margin-bottom: 40rpx;
+      position: relative;
 
-      image {
-        width: 60rpx;
-        margin-right: 20rpx;
+      .poster {
+        width: 100%;
+        height: 200rpx;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        image {
+          width: 120rpx;
+          height: 120rpx;
+        }
       }
 
       .tip {
@@ -149,38 +213,16 @@ page {
 
         text {
           &:nth-child(1) {
-            font-weight: bold;
-            font-size: 36rpx;
-          }
-
-          &:nth-child(2) {
-            font-size: 28rpx;
-            color: #444444;
+            font-size: 22rpx;
           }
         }
       }
 
-      .options {
-        flex-shrink: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 10rpx;
-
-        text {
-          &:nth-child(1) {
-            color: #007aff;
-          }
-
-          &:nth-child(2) {
-            background: #007aff;
-            padding: 10rpx 26rpx;
-            border-radius: 30rpx;
-            color: #ffffff;
-            font-size: 26rpx;
-          }
-        }
+      .money {
+        position: absolute;
+        right: 20rpx;
+        top: 20rpx;
+        color: #007aff;
       }
     }
   }
