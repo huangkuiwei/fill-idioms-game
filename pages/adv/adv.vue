@@ -85,9 +85,9 @@ export default {
         </view>
 
         <view class="money">
-          <text>+</text>
+          <text>￥</text>
           <text>{{item.money}}</text>
-          <text>剩余10000</text>
+          <text>剩余10000+</text>
         </view>
       </view>
     </view>
