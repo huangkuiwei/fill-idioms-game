@@ -18,7 +18,12 @@ export default {
       let moneyData = uni.getStorageSync('moneyData')[3]
       let money = Number(moneyData.minMoney) + Math.random() * (moneyData.maxMoney - moneyData.minMoney)
 
-      this.advList.push( { name: index + 1, videoSrc: `/static/videos/${Math.ceil(Math.random() * 60)}.mp4`, money: money.toFixed(2) },)
+      this.advList.push({
+        name: index + 1,
+        videoSrc: `/static/videos/${index + 1}.mp4`,
+        coverSrc: `/static/images/cover/${index + 1}.jpg`,
+        money: money.toFixed(2) }
+      )
     })
   },
 
@@ -71,15 +76,18 @@ export default {
     <view class="adv-list">
       <view class="adv-item" v-for="item of advList" :key="item.name"  @click="lookAdv(item)">
         <view class="poster">
-          <image mode="widthFix" src="/static/images/video-icon.png"/>
+          <image class="cover" mode="aspectFill" :src="item.coverSrc"/>
+          <image class="play-icon" mode="widthFix" src="/static/images/play-circle.png"/>
         </view>
 
         <view class="tip">
-          <text>看视频自动获得</text>
+          <text>观看视频，助力商家，得奖励！</text>
         </view>
 
         <view class="money">
-          +{{item.money}}
+          <text>+</text>
+          <text>{{item.money}}</text>
+          <text>剩余10000</text>
         </view>
       </view>
     </view>
@@ -125,7 +133,7 @@ export default {
 
 <style lang="scss">
 page {
-  background: #f5f5f5;
+  background: #ffffff;
   padding: 100rpx 0 0;
   height: 100%;
   overflow: hidden;
@@ -141,10 +149,10 @@ page {
     flex-shrink: 0;
     display: flex;
     align-items: center;
-    gap: 40rpx;
-    padding: 0 60rpx 20rpx;
+    justify-content: space-around;
+    padding: 0 0 20rpx;
     margin-bottom: 40rpx;
-    border-bottom: 1px solid #cccccc;
+    border-bottom: 1px solid #D0D3DE;
     overflow: auto;
 
     &::-webkit-scrollbar {
@@ -153,19 +161,21 @@ page {
 
     .tab {
       flex-shrink: 0;
-      font-size: 34rpx;
+      font-size: 32rpx;
+      color: #000000;
 
       &:nth-child(6) {
         position: relative;
+        color: #0062FF;
 
         &:after {
           content: '';
           position: absolute;
           bottom: -20rpx;
-          left: -20rpx;
-          width: 100rpx;
+          left: -30rpx;
+          width: 120rpx;
           height: 4rpx;
-          background: #007aff;
+          background: #0062FF;
           border-radius: 4rpx;
         }
       }
@@ -175,16 +185,15 @@ page {
   .adv-list {
     flex-grow: 1;
     overflow: auto;
-    padding: 0 30rpx;
+    padding: 0 32rpx;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 
     .adv-item {
-      width: 48%;
+      width: 320rpx;
       background: #ffffff;
-      padding: 20rpx 20rpx;
-      border-radius: 16rpx;
+      border-radius: 6rpx;
       display: flex;
       flex-direction: column;
       margin-bottom: 40rpx;
@@ -196,10 +205,20 @@ page {
         display: flex;
         align-items: center;
         justify-content: center;
+        position: relative;
 
-        image {
-          width: 120rpx;
-          height: 120rpx;
+        .cover {
+          border-radius: 6rpx;
+          width: 100%;
+          height: 100%;
+        }
+
+        .play-icon {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
+          width: 76rpx;
         }
       }
 
@@ -209,20 +228,34 @@ page {
         flex-direction: column;
         justify-content: center;
         gap: 10rpx;
-        margin-right: 10rpx;
+        margin: 14rpx 0 16rpx;
 
         text {
           &:nth-child(1) {
-            font-size: 22rpx;
+            font-size: 20rpx;
+            color: #222B45;
           }
         }
       }
 
       .money {
-        position: absolute;
-        right: 20rpx;
-        top: 20rpx;
-        color: #007aff;
+        color: #FF4F42;
+        display: flex;
+        align-items: center;
+
+        text {
+          font-size: 28rpx;
+
+          &:nth-child(2) {
+            font-weight: bold;
+            flex-grow: 1;
+          }
+
+          &:nth-child(3) {
+            color: #999999;
+            font-size: 20rpx;
+          }
+        }
       }
     }
   }
