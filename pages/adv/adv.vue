@@ -13,15 +13,17 @@ export default {
 
   onLoad() {
     this.advList = []
+    let arr = new Array(60).fill(undefined).map((item, index) => index + 1)
+    let newArr = this.shuffleArray(arr)
 
-    new Array(60).fill(undefined).forEach((item, index) => {
+    newArr.forEach((item) => {
       let moneyData = uni.getStorageSync('moneyData')[3]
       let money = Number(moneyData.minMoney) + Math.random() * (moneyData.maxMoney - moneyData.minMoney)
 
       this.advList.push({
-        name: index + 1,
-        videoSrc: `/static/videos/${index + 1}.mp4`,
-        coverSrc: `/static/images/cover/${index + 1}.jpg`,
+        name: item,
+        videoSrc: `/static/videos/${item}.mp4`,
+        coverSrc: `/static/images/cover/${item}.jpg`,
         money: money.toFixed(2) }
       )
     })
@@ -32,6 +34,16 @@ export default {
   },
 
   methods: {
+    shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        // 生成一个从0到i的随机索引
+        const j = Math.floor(Math.random() * (i + 1));
+        // 交换当前元素和随机索引对应的元素
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    },
+
     jumpUrl(url) {
       uni.navigateTo({
         url: url
@@ -64,30 +76,36 @@ export default {
 
 <template>
   <view class="adv-page">
-    <view class="tabs">
-      <view class="tab">热点</view>
-      <view class="tab">生活</view>
-      <view class="tab">商城</view>
-      <view class="tab">推荐</view>
-      <view class="tab">朋友</view>
-      <view class="tab">视频</view>
-    </view>
+    <!--<view class="tabs">-->
+    <!--  <view class="tab">热点</view>-->
+    <!--  <view class="tab">生活</view>-->
+    <!--  <view class="tab">商城</view>-->
+    <!--  <view class="tab">推荐</view>-->
+    <!--  <view class="tab">朋友</view>-->
+    <!--  <view class="tab">视频</view>-->
+    <!--</view>-->
 
     <view class="adv-list">
       <view class="adv-item" v-for="item of advList" :key="item.name"  @click="lookAdv(item)">
         <view class="poster">
           <image class="cover" mode="aspectFill" :src="item.coverSrc"/>
+
           <image class="play-icon" mode="widthFix" src="/static/images/play-circle.png"/>
-        </view>
 
-        <view class="tip">
-          <text>观看视频，助力商家，得奖励！</text>
-        </view>
+          <view class="container">
+            <view class="tip">
+              <text>观看视频自动获得现金</text>
+            </view>
 
-        <view class="money">
-          <text>￥</text>
-          <text>{{item.money}}</text>
-          <text>剩余10000+</text>
+            <view class="money">
+              <view class="left">
+                <image mode="widthFix" src="/static/images/money-icon.png"/>
+                <text class="money">+{{item.money}}</text>
+              </view>
+
+              <text class="number">剩余10000+</text>
+            </view>
+          </view>
         </view>
       </view>
     </view>
@@ -191,7 +209,7 @@ page {
     justify-content: space-between;
 
     .adv-item {
-      width: 320rpx;
+      width: 326rpx;
       background: #ffffff;
       border-radius: 6rpx;
       display: flex;
@@ -201,14 +219,14 @@ page {
 
       .poster {
         width: 100%;
-        height: 200rpx;
+        height: 400rpx;
         display: flex;
         align-items: center;
         justify-content: center;
         position: relative;
 
         .cover {
-          border-radius: 6rpx;
+          border-radius: 24rpx;
           width: 100%;
           height: 100%;
         }
@@ -220,40 +238,47 @@ page {
           transform: translate(-50%, -50%);
           width: 76rpx;
         }
-      }
 
-      .tip {
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 10rpx;
-        margin: 14rpx 0 16rpx;
+        .container {
+          position: absolute;
+          left: 10rpx;
+          right: 10rpx;
+          bottom: 10rpx;
 
-        text {
-          &:nth-child(1) {
-            font-size: 20rpx;
-            color: #222B45;
-          }
-        }
-      }
+          .tip {
+            margin-bottom: 10rpx;
 
-      .money {
-        color: #FF4F42;
-        display: flex;
-        align-items: center;
-
-        text {
-          font-size: 28rpx;
-
-          &:nth-child(2) {
-            font-weight: bold;
-            flex-grow: 1;
+            text {
+              &:nth-child(1) {
+                font-size: 24rpx;
+                color: #ffffff;
+              }
+            }
           }
 
-          &:nth-child(3) {
-            color: #999999;
-            font-size: 20rpx;
+          .money {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .left {
+              color: #ffffff;
+              font-size: 28rpx;
+              background: linear-gradient(to right, #FFD51C, #FF2F05);
+              display: flex;
+              align-items: center;
+              border-radius: 20rpx;
+              padding: 0 16rpx 0 8rpx;
+
+              image {
+                width: 40rpx;
+              }
+            }
+
+            .number {
+              color: #D9D9D9;
+              font-size: 20rpx;
+            }
           }
         }
       }
